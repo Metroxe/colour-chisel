@@ -1,0 +1,43 @@
+{
+  "name": "colour-chisel",
+  "version": "1.0.0",
+  "description": "A library for navigating the colour wheel and creating colour schemes.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run build && ts-mocha ./test/**/* --timeout 10000",
+    "coverage": "nyc npm run test",
+    "build": "rm -rf dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Metroxe/colour-chisel.git"
+  },
+  "keywords": [
+    "colour",
+    "chisel"
+  ],
+  "author": "Christopher Powroznik <christopher@frameonesoftware.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Metroxe/colour-chisel/issues"
+  },
+  "homepage": "https://github.com/Metroxe/colour-chisel#readme",
+  "file": [
+    "dist"
+  ],
+  "dependencies": {
+    "@types/chroma-js": "^1.4.3",
+    "chroma-js": "^2.0.6"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.3",
+    "@types/expect": "^1.20.4",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.11",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.1",
+    "ts-mocha": "^6.0.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  }
+}
