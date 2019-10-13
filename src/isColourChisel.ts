@@ -1,4 +1,4 @@
-import {IColourChisel} from "../interface";
+import {IColourChisel} from "./interface";
 
 function isColourChisel(object: any): object is IColourChisel {
 	return object !== undefined &&

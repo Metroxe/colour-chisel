@@ -1,25 +1,23 @@
+import {Color} from "chroma-js";
+
 export type IInput = string | IColourChisel | Array<string | IColourChisel>;
 
-export interface IColourChiselStatic {
-	(input?: string): IColourChisel;
-	(input?: IColourChisel): IColourChisel;
-	(input?: Array<string | IColourChisel>): IColourChisel;
-}
-
 export interface IColourChisel {
+	readonly discriminator: "isColourChisel"
+
 	// exports
-	readonly hex: () => string[];
-	readonly rgb: () => string[];
-	readonly rgba: () => string[];
-	readonly getChildren: () => IColourChisel[];
+	hex(): string[];
+	rgb(): string[];
+	rgba(): string[];
+	chromaObject(): Color[];
 
 	// transforms
-	readonly addToPath: (input: IInput) => IColourChisel;
-	readonly rotate: (range: number) => IColourChisel;
-	readonly analogous: (range: number) => IColourChisel;
-	readonly compliment: () => IColourChisel;
-	readonly scale: (range: number) => IColourChisel;
+	addToPath(input: IInput): IColourChisel;
+	rotate(range: number): IColourChisel;
+	analogous(range: number): IColourChisel;
+	compliment(): IColourChisel;
+	scale(range: number): IColourChisel;
 
-	// used for checking instance of variable
-	readonly discriminator: "isColourChisel";
+	// utils
+	clone(): IColourChisel;
 }
