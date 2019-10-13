@@ -17,14 +17,17 @@ class ColourChisel implements IColourChisel {
 		// passed in undefined
 		if (input === undefined) {
 			this.path = [];
+			return;
 		}
 
 		// passed in string
 		if (typeof input === "string") {
 			if (chroma.valid(input)) {
-				this.path = [chroma(_input)]
+				this.path = [chroma(_input)];
+				return;
 			} else {
 				this.path = compile(_input).chromaObject();
+				return;
 			}
 		}
 
@@ -37,14 +40,14 @@ class ColourChisel implements IColourChisel {
 		if (Array.isArray(input)) {
 			this.path = [];
 			input.forEach(v => {
+				console.log(v);
 				const _temp = new ColourChisel(v);
 				this.path = this.path.concat(_temp.chromaObject());
-			})
+			});
+			return;
 		}
 
-		if (!this.path) {
-			throw new Error("invalid input to ColourChisel, must be string | IColourChisel | Array<string | IColourChisel>");
-		}
+		throw new Error("invalid input to ColourChisel, must be string | IColourChisel | Array<string | IColourChisel>");
 	}
 
 	addToPath(input: IInput): IColourChisel {
@@ -54,6 +57,7 @@ class ColourChisel implements IColourChisel {
 	}
 
 	analogous(range: number = 45): IColourChisel {
+		console.log(range.toString());
 		const newPath: string[] = this.path
 			.map(c => c.set("hsl.h", range.toString()))
 			.map(c => c.hex());
@@ -80,7 +84,7 @@ class ColourChisel implements IColourChisel {
 	rgba(): string[] {
 		return this.path
 			.map(c => c.rgba())
-			.map(([r, g, b, a]) => `rgb(${r},${g},${b},${a})`);
+			.map(([r, g, b, a]) => `rgba(${r},${g},${b},${a})`);
 	}
 
 	rotate(range: number): IColourChisel {

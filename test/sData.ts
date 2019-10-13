@@ -18,7 +18,7 @@ export const sr90Path = sPath.map(h => chroma(h).set("hsl.h", "+90").hex());
 export const srNeg90Path = sPath.map(h => chroma(h).set("hsl.h", "-90").hex());
 
 // Scaled 'S' 0.5x
-export const sScaleHalfPath = sPath.map(h => chroma(h).set("hsl.s", Math.round(chroma(h).hsl[1] * 0.5)));
+export const sScaleHalfPath = sPath.map(h => chroma(h).set("hsl.s", Math.round(chroma(h).hsl[1] * 0.5)).hex());
 
 // Scaled 'S' 2x
-export const sScaleDoublePath = sPath.map(h => chroma(h).set("hsl.s", Math.round(chroma(h).hsl[1] * 2)));
+export const sScaleDoublePath = sPath.map(h => chroma(h).set("hsl.s", Math.round(chroma(h).hsl[1] * 2)).hex());

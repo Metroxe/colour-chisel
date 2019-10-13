@@ -1,4 +1,4 @@
-import colourChisel from "../dist";
+import ColourChisel from "../dist";
 import {expect} from "chai";
 
 describe("test the basic utilities of passing a colour in and exporting to different variations", () => {
@@ -12,17 +12,17 @@ describe("test the basic utilities of passing a colour in and exporting to diffe
 
 	function testInput(input: string) {
 		return () => {
-			const cc = colourChisel(input);
+			const cc = new ColourChisel(input);
 			it("output to hex", () => {
-				expect(cc.hex()).to.be.equal(hex);
+				expect(cc.hex()).to.deep.equal([hex]);
 			});
 
 			it("output to rgb", () => {
-				expect(cc.rgb()).to.be.equal(rgb);
+				expect(cc.rgb()).to.deep.equal([rgb]);
 			});
 
 			it("output to rgba", () => {
-				expect(cc.rgba()).to.be.equal(rgba)
+				expect(cc.rgba()).to.deep.equal([rgba])
 			});
 		}
 	}
