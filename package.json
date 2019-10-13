@@ -4,8 +4,7 @@
   "description": "A library for navigating the colour wheel and creating colour schemes.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "npm run build && ts-mocha ./test/**/* --timeout 10000",
-    "coverage": "nyc npm run test",
+    "test": "ts-mocha ./test/**/* --timeout 10000",
     "build": "rm -rf dist && tsc"
   },
   "repository": {

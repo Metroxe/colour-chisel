@@ -1,4 +1,4 @@
-import ColourChisel from "../dist";
+import ColourChisel from "../src";
 import {expect} from "chai";
 import {sPath, sr90Path, srNeg90Path, sScaleDoublePath, sScaleHalfPath} from "./sData";
 

@@ -1,4 +1,4 @@
-import ColourChisel from "../dist";
+import ColourChisel from "../src";
 import {expect} from "chai";
 
 describe("test the basic utilities of passing a colour in and exporting to different variations", () => {
