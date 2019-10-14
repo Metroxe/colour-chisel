@@ -13,6 +13,7 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 	function draw() {
 		const current = canvas.current;
 		let ctx  = null as any;
+		let lastCoord: [number, number] | undefined;
 
 		function plot([h, s, l]: [number, number, number]) {
 
@@ -34,7 +35,17 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 			ctx.closePath();
 			ctx.fill();
 			ctx.stroke();
-			// ctx.fillText([h, s, l].toString(), x, y - 12)
+			// draw line
+			if (lastCoord) {
+				ctx.beginPath();
+				ctx.moveTo(x - 3, y + 3);
+				ctx.lineTo(lastCoord[0] - 3,lastCoord[1] + 3);
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+				ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+				ctx.stroke();
+			}
+			ctx.fillText(chroma.hsl(h, s, l).hex(), x, y - 12);
+			lastCoord = [x, y]
 		}
 
 		if (current) {
@@ -76,7 +87,10 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 				ctx.arc(cx, cy, radius, 0, Math.PI * 2, true);
 				ctx.closePath();
 				ctx.fill();
-				inputs.forEach(hArr => hArr.forEach(plot))
+				inputs.forEach(hArr => {
+					lastCoord = undefined;
+					hArr.forEach(plot)
+				})
 			}
 		}
 	}
