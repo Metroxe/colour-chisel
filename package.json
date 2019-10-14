@@ -24,12 +24,7 @@
   "file": [
     "dist"
   ],
-  "dependencies": {
-    "chroma-js": "^2.0.6",
-    "lodash.clonedeep": "^4.5.0"
-  },
   "devDependencies": {
-    "@types/chroma-js": "^1.4.3",
     "@types/chai": "^4.2.3",
     "@types/expect": "^1.20.4",
     "@types/mocha": "^5.2.7",

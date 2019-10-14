@@ -1,5 +1,3 @@
-import {Color} from "chroma-js";
-
 export type IInput = string | IColourChisel | Array<string | IColourChisel>;
 
 export interface IColourChisel {
@@ -7,9 +5,8 @@ export interface IColourChisel {
 
 	// exports
 	hex(): string[];
-	rgb(): string[];
-	rgba(): string[];
-	chromaObject(): Color[];
+	rgb(): [number, number, number][];
+	hsl(): [number, number, number][];
 
 	// transforms
 	addToPath(input: IInput): IColourChisel;

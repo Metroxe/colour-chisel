@@ -8,7 +8,7 @@ class ColourChisel implements IColourChisel {
 
 	static readonly compile = compile;
 	public readonly discriminator: "isColourChisel";
-	private path: Color[];
+	private path: [number, number, number][];
 
 	constructor(input?: IInput) {
 		// remove any connection to caller
