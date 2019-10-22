@@ -1,110 +1,88 @@
 import {IColourChisel, IInput} from "./interface";
 import compile from "./compiler";
-import cloneDeep from "lodash.cloneDeep";
-import chroma, {Color} from "chroma-js";
-import isColourChisel from "./isColourChisel";
+import {determineInput, InputType} from "./utils/determineInput";
+import rgbToHSL from "./converters/rgbToHSL";
+import hexToHSL from "./converters/hexToHSL";
+import hslToRGB from "./converters/hslToRGB";
+import hslToHex from "./converters/hslToHex";
 
 class ColourChisel implements IColourChisel {
 
-	static readonly compile = compile;
+	public static readonly compile = compile;
 	public readonly discriminator: "isColourChisel";
-	private path: [number, number, number][];
+	private readonly path: [number, number, number][]; // hsl[]
 
 	constructor(input?: IInput) {
-		// remove any connection to caller
-		const _input = cloneDeep<IInput>(input);
-
-		// passed in undefined
-		if (input === undefined) {
-			this.path = [];
-			return;
+		switch (determineInput(input)) {
+			case InputType.RGB:
+				this.path = [rgbToHSL(input as [number, number, number])]
+				break;
+			case InputType.HSL:
+				this.path = [input as [number, number, number]];
+				break;
+			case InputType.HEX:
+				this.path = [hexToHSL(input as string)];
+				break;
+			case InputType.COLOUR_CHISEL:
+				this.path = (input as unknown as ColourChisel).hsl();
+				break;
+			case InputType.CODE:
+				this.path = ColourChisel.compile(input as string).hsl();
+				break;
+			case InputType.ARRAY:
+				this.path = (input as any[]).map((i: string | [number, number, number] | IColourChisel): [number, number, number] => {
+					const type = determineInput(i);
+					if ([InputType.ARRAY, InputType.CODE, InputType.CODE].includes(type)) {
+						throw new Error("Incompatible input in array: " + i);
+					}
+					return new ColourChisel(i).hsl()[0];
+				});
+				break;
+			default:
+				throw new Error("Invalid input of: " + input);
 		}
-
-		// passed in string
-		if (typeof input === "string") {
-			if (chroma.valid(input)) {
-				this.path = [chroma(_input)];
-				return;
-			} else {
-				this.path = compile(_input).chromaObject();
-				return;
-			}
-		}
-
-		// passed in IColourChisel
-		if (isColourChisel(_input)) {
-			this.path = _input.chromaObject();
-		}
-
-		// passed in Array
-		if (Array.isArray(input)) {
-			this.path = [];
-			input.forEach(v => {
-				console.log(v);
-				const _temp = new ColourChisel(v);
-				this.path = this.path.concat(_temp.chromaObject());
-			});
-			return;
-		}
-
-		throw new Error("invalid input to ColourChisel, must be string | IColourChisel | Array<string | IColourChisel>");
 	}
 
 	addToPath(input: IInput): IColourChisel {
-		const _temp = new ColourChisel(input);
-		this.path = this.path.concat(_temp.chromaObject());
-		return undefined;
+		const temp = new ColourChisel(input);
+		return new ColourChisel([...this.hsl(), ...temp.hsl()]);
 	}
 
 	analogous(range: number = 45): IColourChisel {
-		console.log(range.toString());
-		const newPath: string[] = this.path
-			.map(c => c.set("hsl.h", range.toString()))
-			.map(c => c.hex());
-		return new ColourChisel(newPath);
+		return this.rotate(range);
 	}
 
 	compliment(): IColourChisel {
-		const newPath: string[] = this.path
-			.map(c => c.set("hsl.h", "+180"))
-			.map(c => c.hex());
-		return new ColourChisel(newPath);
+		return this.rotate(180);
 	}
 
 	hex(): string[] {
-		return this.path.map(c => c.hex());
+		return this.path.map(hslToHex);
 	}
 
-	rgb(): string[] {
-		return this.path
-			.map(c => c.rgb())
-			.map(([r, g, b]) => `rgb(${r},${g},${b})`);
+	rgb(): [number, number, number][] {
+		return this.path.map(hslToRGB);
 	}
 
-	rgba(): string[] {
-		return this.path
-			.map(c => c.rgba())
-			.map(([r, g, b, a]) => `rgba(${r},${g},${b},${a})`);
+	hsl(): [number, number, number][] {
+		// done to make caller safe
+		return this.path.map((hsl) => ([...hsl] as [number, number, number]));
 	}
 
 	rotate(range: number): IColourChisel {
-		return this.analogous(range);
-	}
-
-	scale(range: number): IColourChisel {
-		const newPath: string[] = this.path
-			.map(c => c.saturate(range))
-			.map(c => c.hex());
+		const newPath: [number, number, number][] = this.hsl()
+			.map((hsl) => ([hsl[0] + range, hsl[1], hsl[2]]));
 		return new ColourChisel(newPath);
 	}
 
-	chromaObject(): chroma.Color[] {
-		return this.hex()
-			.map(h => chroma(h));
+	scale(amount: number): IColourChisel {
+		const newPath: [number, number, number][] = this.hsl()
+			.map((hsl) => ([hsl[0], hsl[1] * amount, hsl[2]]));
+		return new ColourChisel(newPath);
 	}
 
 	clone(): IColourChisel {
-		return cloneDeep(this);
+		return new ColourChisel(this.hsl());
 	}
 }
 

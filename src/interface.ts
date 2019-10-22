@@ -1,4 +1,4 @@
-export type IInput = string | IColourChisel | Array<string | IColourChisel>;
+export type IInput = string | [number, number, number] | IColourChisel | Array<string | [number, number, number] | IColourChisel>;
 
 export interface IColourChisel {
 	readonly discriminator: "isColourChisel"
