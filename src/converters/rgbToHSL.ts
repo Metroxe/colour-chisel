@@ -6,8 +6,8 @@ function rgbToHSL([_r, _g, _b]: [number, number, number]): [number, number, numb
 	g /= 255;
 	b /= 255;
 
-	var max = Math.max(r, g, b), min = Math.min(r, g, b);
-	var h, s, l = (max + min) / 2;
+	const max = Math.max(r, g, b), min = Math.min(r, g, b);
+	let h, s, l = (max + min) / 2;
 
 	if (max == min) {
 		h = s = 0; // achromatic
@@ -34,16 +34,10 @@ function rgbStringToHSL(_rgb: string): [number, number, number] {
 
 	for (let s in str) {
 		let r = str[s];
-		if (r.indexOf("%") > -1) {
-			rgb[s] = Math.round(parseInt(r.substr(0, r.length - 1)) / 100 * 255);
-		}
+		rgb[s] = Math.round(parseInt(r));
 	}
 
-	const r = rgb[0] / 255,
-		g = rgb[1] / 255,
-		b = rgb[2] / 255;
-
-	return rgbToHSL([r, g, b]);
+	return rgbToHSL(rgb);
 }
 
 export default rgbToHSL;

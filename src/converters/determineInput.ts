@@ -37,14 +37,14 @@ function determineInput(input: any): InputType {
 		return InputType.COLOUR_CHISEL;
 	}
 
-	// code
-	if (typeof input === "string") {
-		return InputType.CODE;
-	}
-
 	// array
 	if (Array.isArray(input)) {
 		return InputType.ARRAY;
+	}
+
+	// code
+	if (typeof input === "string") {
+		return InputType.CODE;
 	}
 
 	return InputType.INCOMPATIBLE;
