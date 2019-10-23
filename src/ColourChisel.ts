@@ -1,7 +1,7 @@
 import {IColourChisel, IInput} from "./interface";
 import compile from "./compiler";
-import {determineInput, InputType} from "./utils/determineInput";
-import rgbToHSL from "./converters/rgbToHSL";
+import {determineInput, InputType} from "./converters/determineInput";
+import {rgbStringToHSL} from "./converters/rgbToHSL";
 import hexToHSL from "./converters/hexToHSL";
 import hslToRGB from "./converters/hslToRGB";
 import hslToHex from "./converters/hslToHex";
@@ -15,7 +15,7 @@ class ColourChisel implements IColourChisel {
 	constructor(input?: IInput) {
 		switch (determineInput(input)) {
 			case InputType.RGB:
-				this.path = [rgbToHSL(input as [number, number, number])]
+				this.path = [rgbStringToHSL(input as string)];
 				break;
 			case InputType.HSL:
 				this.path = [input as [number, number, number]];

@@ -1,4 +1,4 @@
-import React, {createRef, CSSProperties, useEffect, useLayoutEffect, useState} from "react";
+import React, {createRef, CSSProperties, useEffect} from "react";
 import chroma from "chroma-js"
 
 interface IProps {
@@ -18,7 +18,6 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 		function plot([h, s, l]: [number, number, number]) {
 
 			// coordinate
-			console.log(h, s, l);
 			const degrees = (h / (Math.PI * 180));
 			const theta = (h) * Math.PI/180;
 			const maxRadius = (current as any).offsetWidth / 2;

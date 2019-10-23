@@ -1,24 +1,23 @@
-import chroma from "chroma-js";
-
 // this file hold all the necessary data for testing easily
 
 // Standard 'S'
-export const s0 = chroma("red").hex();
-export const s1 = chroma(s0).set("hsl.h", "-45").hex();
-export const s2 = chroma(s1).set("hsl.h", "-45").hex();
-export const s3 = chroma(s0).set("hsl.h", "+180").hex();
-export const s4 = chroma(s1).set("hsl.h", "+180").hex();
-export const s5 = chroma(s2).set("hsl.h", "+180").hex();
-export const sPath = [s0, s1, s2, s3, s4, s5];
+const s0: [number, number, number] = [90, 0.5, 0.5];
+const [h, s, l]: [number, number, number] = s0;
+const s1: [number, number, number] = [h + 30, s, l];
+const s2: [number, number, number] = [h - 30, s, l];
+const s3: [number, number, number] = [h + 145, s, l];
+const s4: [number, number, number] = [h + 180, s, l];
+const s5: [number, number, number] = [h + 215, s, l];
+export const sPath: Array<[number, number, number]> = [s2, s0, s1, s5, s4, s3];
 
 // Rotated 'S' 90 degrees
-export const sr90Path = sPath.map(h => chroma(h).set("hsl.h", "+90").hex());
+export const sr90Path = sPath.map(([h, s, l]) => [h + 90, s, l]);
 
 // Rotated 'S' -90 degrees
-export const srNeg90Path = sPath.map(h => chroma(h).set("hsl.h", "-90").hex());
+export const srNeg90Path = sPath.map(([h, s, l]) => [h - 90, s, l]);
 
 // Scaled 'S' 0.5x
-export const sScaleHalfPath = sPath.map(h => chroma(h).set("hsl.s", Math.round(chroma(h).hsl[1] * 0.5)).hex());
+export const sScaleHalfPath = sPath.map(([h, s, l]) => [h, s * 0.5, l]);
 
 // Scaled 'S' 2x
-export const sScaleDoublePath = sPath.map(h => chroma(h).set("hsl.s", Math.round(chroma(h).hsl[1] * 2)).hex());
+export const sScaleDoublePath = sPath.map(([h, s, l]) => [h, s * 2, l]);

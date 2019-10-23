@@ -1,7 +1,7 @@
 function hslToHex([_h, _s, _l]: [number, number, number]): string {
 	const h = _h / 360;
-	const s = _s /100;
-	const l = _l / 100;
+	const s = _s;
+	const l = _l;
 	let r, g, b;
 	if (s === 0) {
 		r = g = b = l; // achromatic

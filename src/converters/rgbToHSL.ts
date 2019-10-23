@@ -1,41 +1,30 @@
 function rgbToHSL([_r, _g, _b]: [number, number, number]): [number, number, number] {
-	const r = 255 / _r;
-	const g = 255 / _g;
-	const b = 255 / _b;
+	let r: number = _r;
+	let g: number = _g;
+	let b: number = _b;
+	r /= 255;
+	g /= 255;
+	b /= 255;
 
-	// Find greatest and smallest channel values
-	let cmin = Math.min(r,g,b),
-		cmax = Math.max(r,g,b),
-		delta = cmax - cmin,
-		h = 0,
-		s = 0,
-		l = 0;
+	var max = Math.max(r, g, b), min = Math.min(r, g, b);
+	var h, s, l = (max + min) / 2;
 
-	if (delta == 0) {
-		h = 0;
-	}
-	else if (cmax == r) {
-		h = ((g - b) / delta) % 6;
-	}
-	else if (cmax == g) {
-		h = (b - r) / delta + 2;
-	}
-	else {
-		h = (r - g) / delta + 4;
-	}
+	if (max == min) {
+		h = s = 0; // achromatic
+	} else {
+		var d = max - min;
+		s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
-	h = Math.round(h * 60);
+		switch (max) {
+			case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+			case g: h = (b - r) / d + 2; break;
+			case b: h = (r - g) / d + 4; break;
+		}
 
-	if (h < 0) {
-		h += 360;
+		h /= 6;
 	}
 
-	l = (cmax + cmin) / 2;
-	s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-	s = +(s * 100).toFixed(1);
-	l = +(l * 100).toFixed(1);
-
-	return [h, s, l]
+	return [ h, s, l ];
 }
 
 function rgbStringToHSL(_rgb: string): [number, number, number] {
