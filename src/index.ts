@@ -1,8 +1,3 @@
-import {
-	IColourChiselStatic,
-	IColourChisel,
-} from "./interface";
-import constructor from "./static";
+import ColourChisel from "./ColourChisel";
 
-export {IColourChisel, IColourChiselStatic};
-export default constructor;
+export default ColourChisel;

@@ -1,20 +1,20 @@
-export type IInput = string | IColourChisel | Array<string | IColourChisel>;
-export type IColourChiselStatic = (input: IInput) => IColourChisel;
+export type IInput = string | [number, number, number] | IColourChisel | Array<string | [number, number, number] | IColourChisel>;
 
 export interface IColourChisel {
-	// import the language directly
-	compile: (input: string) => IColourChisel;
+	readonly discriminator: "isColourChisel"
 
 	// exports
-	hex: () => string[];
-	rgb: () => string[];
-	rgba: () => string[];
-	get: () => IColourChisel[];
+	hex(): string[];
+	rgb(): [number, number, number][];
+	hsl(): [number, number, number][];
 
 	// transforms
-	path: (input) => IColourChisel;
-	rotate: (range: number) => IColourChisel;
-	analogous: (range: number) => IColourChisel;
-	compliment: () => IColourChisel;
-	scale: (range: number) => IColourChisel;
+	addToPath(input: IInput): IColourChisel;
+	rotate(range: number): IColourChisel;
+	analogous(range: number): IColourChisel;
+	compliment(): IColourChisel;
+	scale(range: number): IColourChisel;
+
+	// utils
+	clone(): IColourChisel;
 }
