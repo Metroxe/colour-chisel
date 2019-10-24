@@ -12,7 +12,7 @@ function rgbToHSL([_r, _g, _b]: [number, number, number]): [number, number, numb
 	if (max == min) {
 		h = s = 0; // achromatic
 	} else {
-		var d = max - min;
+		const d = max - min;
 		s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
 		switch (max) {
