@@ -18,6 +18,10 @@ class Path extends ASTNode {
 		}
 	}
 
+	typeCheck(): void {
+		this.expressions.forEach(e => e.typeCheck());
+	}
+
 	evaluate(): void {
 
 	}

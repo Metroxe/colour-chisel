@@ -30,6 +30,10 @@ class Manipulation extends ASTNode {
 		this.child.parse();
 	}
 
+	typeCheck(): void {
+		this.child.typeCheck();
+	}
+
 	evaluate(): void {
 
 	}

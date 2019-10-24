@@ -6,6 +6,10 @@ class Compliment extends ASTNode {
 		this.tokenizer.checkNextAndPop("compliment");
 	}
 
+	typeCheck(): void {
+		// nothing to check
+	}
+
 	evaluate(): void {
 
 	}

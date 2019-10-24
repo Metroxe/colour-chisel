@@ -23,6 +23,10 @@ class Variable extends ASTNode {
 		this.starter.parse();
 	}
 
+	typeCheck(): void {
+		this.tokenizer.declareToSymbolTable(this.name);
+	}
+
 	evaluate(): void {
 
 	}

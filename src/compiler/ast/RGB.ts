@@ -16,6 +16,14 @@ class RGB extends ASTNode {
 		this.tokenizer.checkNextAndPop(")");
 	}
 
+	typeCheck(): void {
+		[this.r, this.g, this.b].forEach(v => {
+			if (!isNaN(v as any) && v.toString().indexOf('.') !== -1) {
+				throw new Error(`'rgb(${this.r},${this.g},${this.b})' is not a valid RGB.`);
+			}​
+		})
+	}
+
 	evaluate(): void {
 
 	}

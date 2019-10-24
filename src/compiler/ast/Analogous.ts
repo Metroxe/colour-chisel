@@ -9,6 +9,12 @@ class Analogous extends ASTNode {
 		this.range = this.tokenizer.getNextAndPop();
 	}
 
+	typeCheck(): void {
+		if (!isNaN(this.range as any)) {
+			throw new Error("range is not a valid number")
+		}
+	}
+
 	evaluate(): void {
 
 	}

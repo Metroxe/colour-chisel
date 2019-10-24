@@ -8,7 +8,9 @@ abstract class ASTNode {
 	}
 
 	abstract parse(): void;
+	abstract typeCheck(): void;
 	abstract evaluate(): void;
+
 }
 
 export default ASTNode;

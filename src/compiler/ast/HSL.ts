@@ -16,6 +16,14 @@ class HSL extends ASTNode {
 		this.tokenizer.checkNextAndPop(")");
 	}
 
+	typeCheck(): void {
+		[this.h, this.s, this.l].forEach(v => {
+			if (!isNaN(v as any) && v.toString().indexOf('.') !== -1) {
+				throw new Error(`'hsl(${this.h},${this.s},${this.l})' is not a valid HSL.`);
+			}​
+		})
+	}
+
 	evaluate(): void {
 
 	}

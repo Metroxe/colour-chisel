@@ -31,10 +31,14 @@ class Expression extends ASTNode {
 		}
 	}
 
+	typeCheck(): void {
+		this.starter.typeCheck();
+		this.manipulations.forEach(m => m.typeCheck());
+	}
+
 	evaluate(): void {
 
 	};
-
 }
 
 export default Expression;

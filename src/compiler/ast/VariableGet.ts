@@ -7,6 +7,10 @@ class VariableGet extends ASTNode {
 		this.name = this.tokenizer.getNextAndPop();
 	}
 
+	typeCheck(): void {
+		this.tokenizer.existsInSymbolTable(this.name);
+	}
+
 	evaluate(): void {
 
 	}

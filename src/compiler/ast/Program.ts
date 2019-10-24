@@ -30,6 +30,10 @@ class Program extends ASTNode {
 		}
 	}
 
+	typeCheck(): void {
+		this.children.forEach(([node]) => node.typeCheck());
+	}
+
 	evaluate(): void {
 
 	}

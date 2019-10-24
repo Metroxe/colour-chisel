@@ -26,9 +26,9 @@ class ColourChisel implements IColourChisel {
 			case InputType.COLOUR_CHISEL:
 				this.path = (input as unknown as ColourChisel).hsl();
 				break;
-			case InputType.CODE:
-				this.path = ColourChisel.compile(input as string).hsl();
-				break;
+			// case InputType.CODE:
+			// 	this.path = ColourChisel.compile(input as string);
+			// 	break;
 			case InputType.ARRAY:
 				this.path = (input as any[]).map((i: string | [number, number, number] | IColourChisel): [number, number, number] => {
 					const type = determineInput(i);

@@ -8,7 +8,7 @@ class Tokenizer {
 	private readonly code: string;
 	private tokens: string[];
 	private index = 0;
-	private symbolTable: {[key: string]: ASTNode} = {};
+	private symbolTable: {[key: string]: ASTNode | null} = {};
 
 	constructor(code: string) {
 		this.code = code;
@@ -67,7 +67,12 @@ class Tokenizer {
 		return val;
 	}
 
-	public addToSymbolTable(key: string, node: ASTNode): void {
+	public declareToSymbolTable(key: string,): void {
+		this.symbolTable[key] = null;
+	}
+
+	public defineInSymbolTable(key: string, node: ASTNode): void {
+		this.existsInSymbolTable(key);
 		this.symbolTable[key] = node;
 	}
 

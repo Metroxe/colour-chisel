@@ -24,6 +24,10 @@ class Const extends ASTNode {
 		this.tokenizer.checkNextAndPop(")");
 	}
 
+	typeCheck(): void {
+		this.child.typeCheck();
+	}
+
 	evaluate(): void {
 
 	}
