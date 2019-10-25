@@ -1,4 +1,5 @@
 import ASTNode from "./Node";
+import ColourChisel from "../../ColourChisel";
 
 class RGB extends ASTNode {
 	private r: string;
@@ -24,8 +25,8 @@ class RGB extends ASTNode {
 		})
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		return new ColourChisel(`rgb(${this.r},${this.g},${this.b})`);
 	}
 }
 

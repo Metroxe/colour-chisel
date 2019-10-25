@@ -1,5 +1,6 @@
 import literals from "./literals";
 import ASTNode from "./ast/Node";
+import ColourChisel from "../ColourChisel";
 
 class Tokenizer {
 
@@ -8,7 +9,7 @@ class Tokenizer {
 	private readonly code: string;
 	private tokens: string[];
 	private index = 0;
-	private symbolTable: {[key: string]: ASTNode | null} = {};
+	private symbolTable: {[key: string]: ColourChisel | null} = {};
 
 	constructor(code: string) {
 		this.code = code;
@@ -71,7 +72,7 @@ class Tokenizer {
 		this.symbolTable[key] = null;
 	}
 
-	public defineInSymbolTable(key: string, node: ASTNode): void {
+	public defineInSymbolTable(key: string, node: ColourChisel): void {
 		this.existsInSymbolTable(key);
 		this.symbolTable[key] = node;
 	}
@@ -82,7 +83,7 @@ class Tokenizer {
 		}
 	}
 
-	public getFromSymbolTable(key: string): ASTNode {
+	public getFromSymbolTable(key: string): ColourChisel {
 		this.existsInSymbolTable(key);
 		return this.symbolTable[key];
 	}

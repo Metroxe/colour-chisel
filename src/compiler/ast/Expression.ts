@@ -3,6 +3,7 @@ import Const from "./Const";
 import VariableGet from "./VariableGet";
 import Path from "./Path";
 import Manipulation from "./Manipulation";
+import ColourChisel from "../../ColourChisel";
 
 class Expression extends ASTNode {
 	private starter: Const | Path | VariableGet;
@@ -36,8 +37,13 @@ class Expression extends ASTNode {
 		this.manipulations.forEach(m => m.typeCheck());
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		let colourChisel: ColourChisel = this.starter.evaluate();
+		this.manipulations.forEach(m => {
+			m.setParam(colourChisel);
+			colourChisel = m.evaluate();
+		});
+		return colourChisel;
 	};
 }
 

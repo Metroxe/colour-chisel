@@ -1,16 +1,17 @@
 import ASTNode from "./Node";
 import Expression from "./Expression";
 import Variable from "./Variable";
+import ColourChisel from "../../ColourChisel";
 
 class Program extends ASTNode {
 
-	private children: Array<[ASTNode, boolean]> = [];
+	private children: Array<[Variable | Expression, boolean]> = [];
 
 	parse(): void {
 		while (this.tokenizer.remainingTokens() > 0) {
 			let starter = this.tokenizer.getNext();
 			let isExport = false;
-			let child: ASTNode;
+			let child: Variable | Expression;
 			if (starter === "export") {
 				this.tokenizer.pop();
 				starter = this.tokenizer.getNext();
@@ -34,8 +35,15 @@ class Program extends ASTNode {
 		this.children.forEach(([node]) => node.typeCheck());
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel[] {
+		const exports: ColourChisel[] = [];
+		this.children.forEach(([node, isExport]) => {
+			const colourChisel = node.evaluate();
+			if (isExport) {
+				exports.push(colourChisel);
+			}
+		});
+		return exports;
 	}
 }
 

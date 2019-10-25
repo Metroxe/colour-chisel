@@ -2,6 +2,7 @@ import ASTNode from "./Node";
 import HSL from "./HSL";
 import RGB from "./RGB";
 import Hex from "./Hex";
+import ColourChisel from "../../ColourChisel";
 
 class Const extends ASTNode {
 	private child: RGB | HSL | Hex;
@@ -28,8 +29,8 @@ class Const extends ASTNode {
 		this.child.typeCheck();
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		return this.child.evaluate();
 	}
 }
 

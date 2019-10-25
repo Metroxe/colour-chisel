@@ -1,4 +1,5 @@
 import ASTNode from "./Node";
+import ColourChisel from "../../ColourChisel";
 
 class HSL extends ASTNode {
 	private h: string;
@@ -17,15 +18,20 @@ class HSL extends ASTNode {
 	}
 
 	typeCheck(): void {
-		[this.h, this.s, this.l].forEach(v => {
-			if (!isNaN(v as any) && v.toString().indexOf('.') !== -1) {
-				throw new Error(`'hsl(${this.h},${this.s},${this.l})' is not a valid HSL.`);
-			}​
-		})
+		[this.h, this.s, this.l]
+			.forEach(v => {
+				if (!isNaN(v as any) && v.toString().indexOf('.') !== -1) {
+					throw new Error(`'hsl(${this.h},${this.s},${this.l})' is not a valid HSL.`);
+				}​
+			})
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		return new ColourChisel([
+			parseInt(this.h),
+			parseInt(this.s),
+			parseInt(this.l),
+		]);
 	}
 }
 

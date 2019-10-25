@@ -1,4 +1,5 @@
 import ASTNode from "./Node";
+import ColourChisel from "../../ColourChisel";
 
 class Hex extends ASTNode {
 	private hex: string;
@@ -10,11 +11,11 @@ class Hex extends ASTNode {
 	}
 
 	typeCheck(): void {
-		Hex.hexRegExp.test(this.hex);
+		Hex.hexRegExp.test(`#${this.hex}`);
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		return new ColourChisel(`#${this.hex}`);
 	}
 }
 

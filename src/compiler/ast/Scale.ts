@@ -1,8 +1,10 @@
 import ASTNode from "./Node";
+import ColourChisel from "../../ColourChisel";
 
 class Scale extends ASTNode {
 
 	private range: string;
+	private param: ColourChisel;
 
 	parse(): void {
 		this.tokenizer.checkNextAndPop("range");
@@ -15,8 +17,13 @@ class Scale extends ASTNode {
 		}
 	}
 
-	evaluate(): void {
+	evaluate(): ColourChisel {
+		const range = parseInt(this.range);
+		return this.param.scale(range);
+	}
 
+	setParam(colourChisel: ColourChisel): void {
+		this.param = colourChisel;
 	}
 
 }

@@ -2,6 +2,7 @@ import ASTNode from "./Node";
 import Const from "./Const";
 import Path from "./Path";
 import Expression from "./Expression";
+import ColourChisel from "../../ColourChisel";
 
 class Variable extends ASTNode {
 	private name: string;
@@ -27,8 +28,10 @@ class Variable extends ASTNode {
 		this.tokenizer.declareToSymbolTable(this.name);
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		const colourChisel = this.starter.evaluate();
+		this.tokenizer.defineInSymbolTable(this.name, colourChisel);
+		return colourChisel;
 	}
 }
 

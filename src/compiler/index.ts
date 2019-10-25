@@ -6,7 +6,8 @@ function compile(input: string): IColourChisel[] {
 	const tokenizer = new Tokenizer(input);
 	const program = new Program(tokenizer);
 	program.parse();
-	return null;
+	program.typeCheck();
+	return program.evaluate();
 }
 
 export default compile;

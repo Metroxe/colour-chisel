@@ -1,5 +1,6 @@
 import ASTNode from "./Node";
 import Expression from "./Expression";
+import ColourChisel from "../../ColourChisel";
 
 class Path extends ASTNode {
 	public expressions: Expression[] = [];
@@ -22,8 +23,8 @@ class Path extends ASTNode {
 		this.expressions.forEach(e => e.typeCheck());
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		return new ColourChisel(this.expressions.map(e => e.evaluate()));
 	}
 }
 

@@ -3,10 +3,12 @@ import Analogous from "./Analogous";
 import Compliment from "./Compliment";
 import Rotate from "./Rotate";
 import Scale from "./Scale";
+import ColourChisel from "../../ColourChisel";
 
 class Manipulation extends ASTNode {
 
 	private child: Analogous | Compliment | Rotate | Scale;
+	private param: ColourChisel;
 
 	parse(): void {
 		const starter = this.tokenizer.getNext();
@@ -34,8 +36,13 @@ class Manipulation extends ASTNode {
 		this.child.typeCheck();
 	}
 
-	evaluate(): void {
+	evaluate(): ColourChisel {
+		this.child.setParam(this.param);
+		return this.child.evaluate();
+	}
 
+	setParam(colourChisel: ColourChisel): void {
+		this.param = colourChisel;
 	}
 }
 

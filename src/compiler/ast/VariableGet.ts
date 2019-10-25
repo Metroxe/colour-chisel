@@ -1,4 +1,5 @@
 import ASTNode from "./Node";
+import ColourChisel from "../../ColourChisel";
 
 class VariableGet extends ASTNode {
 	private name: string;
@@ -11,8 +12,8 @@ class VariableGet extends ASTNode {
 		this.tokenizer.existsInSymbolTable(this.name);
 	}
 
-	evaluate(): void {
-
+	evaluate(): ColourChisel {
+		return this.tokenizer.getFromSymbolTable(this.name).clone()
 	}
 }
 
