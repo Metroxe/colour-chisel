@@ -1,5 +1,4 @@
 import React, {createRef, CSSProperties, useEffect} from "react";
-import chroma from "chroma-js"
 
 interface IProps {
 	inputs: Array<[number, number, number]>[]
@@ -22,8 +21,8 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 			const theta = (h) * Math.PI/180;
 			const maxRadius = (current as any).offsetWidth / 2;
 			const r = s * maxRadius;
-			const x = r * Math.cos(h) + maxRadius;
-			const y = -r * Math.sin(h) + maxRadius;
+			const x = r * Math.cos(theta) + maxRadius;
+			const y = -r * Math.sin(theta) + maxRadius;
 
 			// drawing
 			ctx.strokeStyle = 'rgb(255, 255, 255)';
@@ -43,7 +42,7 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 				ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 				ctx.stroke();
 			}
-			ctx.fillText(chroma.hsl(h, s, l).hex(), x, y - 12);
+			ctx.fillText([h, s, l].toString(), x, y - 12);
 			lastCoord = [x, y]
 		}
 
@@ -95,8 +94,12 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 	}
 
 	return (
-		<canvas ref={canvas} style={{height: 500, width: 500}}/>
+		<canvas ref={canvas} style={{height: 300, width: 300}}/>
 	)
 };
 
-export default ColourWheel;
+function isEqual (prev: IProps, newProps: IProps): boolean {
+	return JSON.stringify(prev)==JSON.stringify(newProps);
+}
+
+export default React.memo(ColourWheel, isEqual);

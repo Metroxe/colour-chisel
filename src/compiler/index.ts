@@ -1,8 +1,8 @@
-import {IColourChisel} from "../interface";
 import Tokenizer from "./Tokenizer";
 import Program from "./ast/Program";
+import ColourChisel from "../ColourChisel";
 
-function compile(input: string): IColourChisel[] {
+function compile(input: string): ColourChisel[] {
 	const tokenizer = new Tokenizer(input);
 	const program = new Program(tokenizer);
 	program.parse();
