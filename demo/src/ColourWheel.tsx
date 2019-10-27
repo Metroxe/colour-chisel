@@ -17,7 +17,6 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 		function plot([h, s, l]: [number, number, number]) {
 
 			// coordinate
-			const degrees = (h / (Math.PI * 180));
 			const theta = (h) * Math.PI/180;
 			const maxRadius = (current as any).offsetWidth / 2;
 			const r = s * maxRadius;
@@ -99,7 +98,7 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 };
 
 function isEqual (prev: IProps, newProps: IProps): boolean {
-	return JSON.stringify(prev)==JSON.stringify(newProps);
+	return JSON.stringify(prev) === JSON.stringify(newProps);
 }
 
 export default React.memo(ColourWheel, isEqual);

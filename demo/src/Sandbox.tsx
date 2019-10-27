@@ -20,6 +20,7 @@ const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, chil
 		if (defaultCode) {
 			onChange(defaultCode)
 		}
+		// eslint-disable-next-line
 	}, [defaultCode]);
 
 	function onChange(c: string): void {
