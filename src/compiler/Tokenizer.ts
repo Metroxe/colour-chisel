@@ -1,14 +1,13 @@
 import literals from "./literals";
-import ASTNode from "./ast/Node";
 import ColourChisel from "../ColourChisel";
 
 class Tokenizer {
 
-	private static sep = "![#_SEP_#]!";
+	private static sep = "_";
 	private static doubleSep = Tokenizer.sep + Tokenizer.sep;
 	private readonly code: string;
 	private tokens: string[];
-	private index = 0;
+	private index = -1;
 	private symbolTable: {[key: string]: ColourChisel | null} = {};
 
 	constructor(code: string) {
@@ -20,23 +19,27 @@ class Tokenizer {
 		let code = this.code;
 
 		// remove new lines
-		code = code.replace("\n", Tokenizer.sep);
+		code = code.replace(new RegExp("\n", "g"), Tokenizer.sep);
 
 		// replace spaces
-		code = code.replace(" ", Tokenizer.sep);
+		code = code.replace(new RegExp(" ", "g"), Tokenizer.sep);
+
+		// replace tabs
+		code = code.replace(new RegExp("\t", "g"), Tokenizer.sep);
 
 		// surround literals
-		literals.forEach(l => {
-			code = code.replace(l, Tokenizer.sep+l+Tokenizer.sep);
+		literals.forEach(([regex, literal]) => {
+			code = code.replace(regex, Tokenizer.sep+literal+Tokenizer.sep);
 		});
 
 		// remove doubles seps
-		while(code.includes(Tokenizer.doubleSep)) {
-			code = code.replace(Tokenizer.doubleSep, Tokenizer.sep);
+		while (code.includes(Tokenizer.doubleSep)) {
+			code = code.replace(new RegExp(Tokenizer.doubleSep, "g"), Tokenizer.sep);
 		}
 
 		// split on sep
 		this.tokens = code.split(Tokenizer.sep);
+		this.tokens = this.tokens.filter(s => s.length > 0);
 	}
 
 	public pop(): void {
@@ -52,7 +55,7 @@ class Tokenizer {
 
 	public checkNext(checkVal: string): void {
 		if (checkVal !== this.getNext()) {
-			throw new Error(`'${checkVal}' is not a valid token for this expression.`)
+			throw new Error(`'${this.getNext()}' is not a valid token for this expression. Should be '${checkVal}'.`)
 		}
 	}
 
@@ -63,9 +66,8 @@ class Tokenizer {
 	}
 
 	public checkNextAndPop(checkVal: string): void {
-		const val = this.checkNext(checkVal);
+		this.checkNext(checkVal);
 		this.pop();
-		return val;
 	}
 
 	public declareToSymbolTable(key: string,): void {

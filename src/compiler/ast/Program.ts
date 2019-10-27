@@ -13,6 +13,7 @@ class Program extends ASTNode {
 			let isExport = false;
 			let child: Variable | Expression;
 			if (starter === "export") {
+				isExport = true;
 				this.tokenizer.pop();
 				starter = this.tokenizer.getNext();
 			}

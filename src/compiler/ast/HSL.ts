@@ -20,7 +20,7 @@ class HSL extends ASTNode {
 	typeCheck(): void {
 		[this.h, this.s, this.l]
 			.forEach(v => {
-				if (!isNaN(v as any) && v.toString().indexOf('.') !== -1) {
+				if (isNaN(v as any)) {
 					throw new Error(`'hsl(${this.h},${this.s},${this.l})' is not a valid HSL.`);
 				}​
 			})
@@ -28,9 +28,9 @@ class HSL extends ASTNode {
 
 	evaluate(): ColourChisel {
 		return new ColourChisel([
-			parseInt(this.h),
-			parseInt(this.s),
-			parseInt(this.l),
+			parseFloat(this.h),
+			parseFloat(this.s),
+			parseFloat(this.l),
 		]);
 	}
 }

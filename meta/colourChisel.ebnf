@@ -1,6 +1,6 @@
 program  ::= (("export")? (expression | variable)) ";"*
 expression
-         ::= (const | path | variableGet) ("," manipulation)*
+         ::= const | path | variableGet (">" manipulation)*
 
 /* Variables */
 variable ::= var ([a-fA-F]+) "=" (expression | path | const)

@@ -7,7 +7,7 @@ import ColourChisel from "../../ColourChisel";
 
 class Expression extends ASTNode {
 	private starter: Const | Path | VariableGet;
-	private manipulations: Manipulation[];
+	private manipulations: Manipulation[] = [];
 
 	parse(): void {
 		const starter = this.tokenizer.getNext();
@@ -22,13 +22,13 @@ class Expression extends ASTNode {
 
 		this.starter.parse();
 
-		let comma = this.tokenizer.getNext();
-		while (comma === ",") {
+		let next = this.tokenizer.getNext();
+		while (next === ">") {
 			this.tokenizer.pop();
 			const manipulation = new Manipulation(this.tokenizer);
 			manipulation.parse();
 			this.manipulations.push(manipulation);
-			comma = this.tokenizer.getNext();
+			next = this.tokenizer.getNext();
 		}
 	}
 

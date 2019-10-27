@@ -7,18 +7,18 @@ class Rotate extends ASTNode {
 	private param: ColourChisel;
 
 	parse(): void {
-		this.tokenizer.checkNextAndPop("analogous");
+		this.tokenizer.checkNextAndPop("rotate");
 		this.range = this.tokenizer.getNextAndPop();
 	}
 
 	typeCheck(): void {
-		if (!isNaN(this.range as any)) {
+		if (isNaN(this.range as any)) {
 			throw new Error("range is not a valid number")
 		}
 	}
 
 	evaluate(): ColourChisel {
-		const range = parseInt(this.range);
+		const range = parseFloat(this.range);
 		return this.param.rotate(range);
 	}
 

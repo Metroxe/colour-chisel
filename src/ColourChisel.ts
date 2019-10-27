@@ -9,7 +9,7 @@ import hslToHex from "./converters/hslToHex";
 class ColourChisel implements IColourChisel {
 
 	public static readonly compile = compile;
-	public readonly discriminator: "isColourChisel";
+	public readonly discriminator = "isColourChisel";
 	private readonly path: [number, number, number][]; // hsl[]
 
 	constructor(input?: IInput) {
@@ -26,13 +26,13 @@ class ColourChisel implements IColourChisel {
 			case InputType.COLOUR_CHISEL:
 				this.path = (input as unknown as ColourChisel).hsl();
 				break;
-			// case InputType.CODE:
-			// 	this.path = ColourChisel.compile(input as string);
-			// 	break;
+			case InputType.CODE:
+				this.path = ColourChisel.compile(input as string)[0].hsl();
+				break;
 			case InputType.ARRAY:
 				this.path = (input as any[]).map((i: string | [number, number, number] | ColourChisel): [number, number, number] => {
 					const type = determineInput(i);
-					if ([InputType.ARRAY, InputType.CODE, InputType.CODE].includes(type)) {
+					if ([InputType.ARRAY, InputType.CODE,].includes(type)) {
 						throw new Error("Incompatible input in array: " + i);
 					}
 					return new ColourChisel(i).hsl()[0];

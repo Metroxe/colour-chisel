@@ -7,12 +7,14 @@ class Path extends ASTNode {
 
 	parse(): void {
 		this.tokenizer.checkNextAndPop("[");
-		let next = ",";
-		while (next === ",") {
+		let first = true;
+		let next = this.tokenizer.getNext();
+		while (next === "," || first === true) {
 			const expression = new Expression(this.tokenizer);
 			expression.parse();
 			this.expressions.push(expression);
 			next = this.tokenizer.getNextAndPop();
+			first = false;
 		}
 		if (next !== "]") {
 			throw new Error("Invalid closing of path.");

@@ -12,13 +12,13 @@ class Analogous extends ASTNode {
 	}
 
 	typeCheck(): void {
-		if (!isNaN(this.range as any)) {
+		if (isNaN(this.range as any)) {
 			throw new Error("range is not a valid number")
 		}
 	}
 
 	evaluate(): ColourChisel {
-		const range = parseInt(this.range);
+		const range = parseFloat(this.range);
 		return this.param.analogous(range);
 	}
 
