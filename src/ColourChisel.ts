@@ -9,7 +9,7 @@ import hslToHex from "./converters/hslToHex";
 class ColourChisel implements IColourChisel {
 
 	public static readonly compile = compile;
-	public readonly discriminator: "isColourChisel";
+	public readonly discriminator = "isColourChisel";
 	private readonly path: [number, number, number][]; // hsl[]
 
 	constructor(input?: IInput) {
@@ -27,12 +27,12 @@ class ColourChisel implements IColourChisel {
 				this.path = (input as unknown as ColourChisel).hsl();
 				break;
 			case InputType.CODE:
-				this.path = ColourChisel.compile(input as string).hsl();
+				this.path = ColourChisel.compile(input as string)[0].hsl();
 				break;
 			case InputType.ARRAY:
-				this.path = (input as any[]).map((i: string | [number, number, number] | IColourChisel): [number, number, number] => {
+				this.path = (input as any[]).map((i: string | [number, number, number] | ColourChisel): [number, number, number] => {
 					const type = determineInput(i);
-					if ([InputType.ARRAY, InputType.CODE, InputType.CODE].includes(type)) {
+					if ([InputType.ARRAY, InputType.CODE,].includes(type)) {
 						throw new Error("Incompatible input in array: " + i);
 					}
 					return new ColourChisel(i).hsl()[0];
@@ -43,16 +43,16 @@ class ColourChisel implements IColourChisel {
 		}
 	}
 
-	addToPath(input: IInput): IColourChisel {
+	addToPath(input: IInput): ColourChisel {
 		const temp = new ColourChisel(input);
 		return new ColourChisel([...this.hsl(), ...temp.hsl()]);
 	}
 
-	analogous(range: number = 45): IColourChisel {
+	analogous(range: number = 45): ColourChisel {
 		return this.rotate(range);
 	}
 
-	compliment(): IColourChisel {
+	compliment(): ColourChisel {
 		return this.rotate(180);
 	}
 
@@ -69,19 +69,19 @@ class ColourChisel implements IColourChisel {
 		return this.path.map((hsl) => ([...hsl] as [number, number, number]));
 	}
 
-	rotate(range: number): IColourChisel {
+	rotate(range: number): ColourChisel {
 		const newPath: [number, number, number][] = this.hsl()
 			.map((hsl) => ([hsl[0] + range, hsl[1], hsl[2]]));
 		return new ColourChisel(newPath);
 	}
 
-	scale(amount: number): IColourChisel {
+	scale(amount: number): ColourChisel {
 		const newPath: [number, number, number][] = this.hsl()
 			.map((hsl) => ([hsl[0], hsl[1] * amount, hsl[2]]));
 		return new ColourChisel(newPath);
 	}
 
-	clone(): IColourChisel {
+	clone(): ColourChisel {
 		return new ColourChisel(this.hsl());
 	}
 }
