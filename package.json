@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "ts-mocha ./test/**/* --timeout 10000",
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc",
+    "deploy-demo": "npm run build --prefix ./demo && gh-pages -d ./demo/build"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "mocha": "^6.2.1",
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "gh-pages": "^2.0.1"
   }
 }

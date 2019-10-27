@@ -13,14 +13,16 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
+    "react-simple-code-editor": "^0.10.0",
     "reactstrap": "^8.0.1",
     "typescript": "3.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run rebuild && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "rebuild": "npm remove colour-chisel && npm run build --prefix ../ && npm install ../"
   },
   "eslintConfig": {
     "extends": "react-app"
