@@ -1,5 +1,6 @@
 {
   "name": "demo",
+  "homepage": "https://Metroxe.github.io/colour-chisel",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
