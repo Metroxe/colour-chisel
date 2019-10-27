@@ -25,4 +25,4 @@ jobs:
         npm install
         npm run deploy-demo
       env:
-        CI: true
+        CI: false
