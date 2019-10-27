@@ -21,3 +21,6 @@ export const sScaleHalfPath = sPath.map(([h, s, l]) => [h, s * 0.5, l]);
 
 // Scaled 'S' 2x
 export const sScaleDoublePath = sPath.map(([h, s, l]) => [h, s * 2, l]);
+
+// 'S' compliment
+export const sCompliment = sPath.map(([h, s, l]) => [h + 180, s, l]);
