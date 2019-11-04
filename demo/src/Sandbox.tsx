@@ -9,9 +9,10 @@ export interface ISandboxProps {
 	child?: JSX.Element,
 	description?: string,
 	defaultCode?: string,
+	onChangeMarkdown?: (md: string) => void,
 }
 
-const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, child}) => {
+const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, child, onChangeMarkdown}) => {
 	const [code, updateCode] = useState("");
 	const [hsls, updateHSLs] = useState<Array<[number, number, number]>[]>([]);
 	const [error, updateError] = useState<string>();
@@ -23,13 +24,21 @@ const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, chil
 		// eslint-disable-next-line
 	}, [defaultCode]);
 
+	useEffect(() => {
+		let md = "";
+		if (title) {md += `### ${title}\n`}
+		if (description) {md += `${description}\n`}
+		md += "```\n" + (code || "not attempted.") + "\n```\n";
+		if (error) {md += "**" + error + "**\n"}
+		if (onChangeMarkdown) { onChangeMarkdown(md) }
+	}, [code, error, title, description]);
+
 	function onChange(c: string): void {
 		updateCode(c);
 		try {
 			const ccs: ColourChisel[] = ColourChisel.compile(c);
 			updateError(undefined);
 			updateHSLs(ccs.map(cc => cc.hsl()));
-			console.log(hsls);
 		} catch (err) {
 			updateError(err.message);
 			updateHSLs([]);
@@ -38,7 +47,7 @@ const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, chil
 
 	return (
 		<Card className="my-3">
-			{title && <CardHeader><h3 className="h5">{title}</h3></CardHeader>}
+			{title && <CardHeader>{title}</CardHeader>}
 			<CardBody>
 				{description && <CardText>{description}</CardText>}
 				{child && child}
@@ -65,11 +74,11 @@ const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, chil
 					</Col>
 
 					{error &&
-					<Col className="my-3" md={12}>
-						<Alert color="danger">
-							{error}
-						</Alert>
-					</Col>
+						<Col className="my-3" md={12}>
+							<Alert color="danger">
+								{error}
+							</Alert>
+						</Col>
 					}
 				</Row>
 			</CardBody>
