@@ -1,4 +1,4 @@
-import React, {createRef, CSSProperties, useEffect} from "react";
+import React, {createRef, CSSProperties, useEffect, useState} from "react";
 
 interface IProps {
 	inputs: Array<[number, number, number]>[]
@@ -6,8 +6,16 @@ interface IProps {
 }
 
 const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
+
+	const [key, updateKey] = useState(Math.random());
 	const canvas = createRef<HTMLCanvasElement>();
-	useEffect(draw);
+	const requestRef = React.useRef();
+
+	useEffect(() => {
+		// @ts-ignore
+		requestRef.current = requestAnimationFrame(draw);
+		return () => cancelAnimationFrame(requestRef.current);
+	}, [JSON.stringify(inputs)]);
 
 	function draw() {
 		const current = canvas.current;
@@ -87,9 +95,15 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 				inputs.forEach(hArr => {
 					lastCoord = undefined;
 					hArr.forEach(plot)
-				})
+				});
 			}
 		}
+	}
+
+	if (!canvas.current) {
+		setTimeout(() => {
+			draw();
+		}, 1000);
 	}
 
 	return (
@@ -101,4 +115,5 @@ function isEqual (prev: IProps, newProps: IProps): boolean {
 	return JSON.stringify(prev) === JSON.stringify(newProps);
 }
 
-export default React.memo(ColourWheel, isEqual);
+// export default React.memo(ColourWheel, isEqual);
+export default ColourWheel;

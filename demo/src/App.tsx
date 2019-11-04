@@ -1,7 +1,6 @@
-import {Card, CardBody, CardText, Col, Container, Row} from "reactstrap";
-import React from "react";
+import {Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
+import React, {useState} from "react";
 import Sandbox from "./Sandbox";
-import Editor from "react-simple-code-editor";
 import {
 	chaining,
 	compliments,
@@ -12,69 +11,65 @@ import {
 	scale,
 	variables
 } from "./Sections/Sections";
+import Intro from "./Intro";
+import UserTest from "./UserTest";
 
 
 const App: React.FC = () => {
+	const [activeTab, setActiveTab] = useState(0);
+
+	function toggle(tab: number): () => void {
+		return () => {
+			if (activeTab !== tab) {
+				setActiveTab(tab);
+			}
+		}
+	}
 
 	return (
-		<Container>
-			<Row>
-				<Col md={12} className="my-3">
-					<Card>
-						<CardBody>
-							<img
-								className="w-25"
-								src={process.env.PUBLIC_URL + "/colour_chisel_logo.png"}
-								alt="colour chisel logo"
-							/>
-							<CardText>
-								Colour Chisel is a language and javascript library for creating shapes and
-								performing geometrical operations on a colour wheel. The library can be compiled
-								from the domain specific language or used as a recursive programmatic javascript language.
-								To install the library simply run...
-							</CardText>
-							<Card>
-								<Editor
-									value="npm install --save colour-chisel"
-									onValueChange={(c) => {}}
-									highlight={code => code}
-									padding={10}
-									style={{
-										fontFamily: 'monospace',
-										fontSize: 12,
-									}}
-								/>
-							</Card>
-							<CardText>
-								To Compile the domain specific language, then simply run...
-							</CardText>
-							<Card>
-								<Editor
-									value="ColourChisel.compile(/*code*/)"
-									onValueChange={(c) => {}}
-									highlight={code => code}
-									padding={10}
-									style={{
-										fontFamily: 'monospace',
-										fontSize: 12,
-									}}
-								/>
-							</Card>
-						</CardBody>
-					</Card>
-				</Col>
-			</Row>
-			<Sandbox {...definingConstants}/>
-			<Sandbox {...variables}/>
-			<Sandbox {...paths}/>
-			<Sandbox {...rotationAndAnalogous}/>
-			<Sandbox {...compliments}/>
-			<Sandbox {...scale}/>
-			<Sandbox {...chaining}/>
-			<Sandbox {...inlineRecursion}/>
-			<Sandbox {...sandBox}/>
+		<Container className="py-5">
+			<Intro/>
+
+			<Nav tabs className="mt-3">
+				<NavItem>
+					<NavLink
+						className={activeTab === 0 ? "active" : ""}
+						onClick={toggle(0)}
+						style={{cursor: "pointer"}}
+					>
+						Examples
+					</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink
+						className={activeTab === 1 ? "active" : ""}
+						onClick={toggle(1)}
+						style={{cursor: "pointer"}}
+					>
+						User Test
+					</NavLink>
+				</NavItem>
+			</Nav>
+
+			<TabContent activeTab={activeTab}>
+				<TabPane tabId={0}>
+					<Sandbox {...definingConstants}/>
+					<Sandbox {...variables}/>
+					<Sandbox {...paths}/>
+					<Sandbox {...rotationAndAnalogous}/>
+					<Sandbox {...compliments}/>
+					<Sandbox {...scale}/>
+					<Sandbox {...chaining}/>
+					<Sandbox {...inlineRecursion}/>
+					<Sandbox {...sandBox}/>
+				</TabPane>
+
+				<TabPane tabId={1}>
+					<UserTest/>
+				</TabPane>
+			</TabContent>
 		</Container>
-	);
+)
 };
 
 export default App;

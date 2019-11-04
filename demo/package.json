@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/downloadjs": "^1.4.1",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
     "@types/react": "16.9.5",
@@ -11,6 +12,7 @@
     "bootstrap": "^4.3.1",
     "chroma-js": "^2.0.6",
     "colour-chisel": "file:..",
+    "downloadjs": "^1.4.7",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
