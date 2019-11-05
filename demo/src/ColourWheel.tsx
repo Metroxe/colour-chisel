@@ -1,21 +1,35 @@
 import React, {createRef, CSSProperties, useEffect, useState} from "react";
+import {Tooltip, UncontrolledTooltip} from "reactstrap";
 
 interface IProps {
 	inputs: Array<[number, number, number]>[]
 	style?: CSSProperties;
 }
 
+function makeid(length: number): string {
+	let result           = '';
+	const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	const charactersLength = characters.length;
+	for ( let i = 0; i < length; i++ ) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
+}
+
 const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 
-	const [key, updateKey] = useState(Math.random());
 	const canvas = createRef<HTMLCanvasElement>();
 	const requestRef = React.useRef();
+	const [tooltipOpen, setTooltipOpen] = useState(false);
+	const [id] = useState(makeid(1000));
 
 	useEffect(() => {
 		// @ts-ignore
 		requestRef.current = requestAnimationFrame(draw);
 		return () => cancelAnimationFrame(requestRef.current);
 	}, [JSON.stringify(inputs)]);
+
+	const toggle = () => setTooltipOpen(!tooltipOpen);
 
 	function draw() {
 		const current = canvas.current;
@@ -107,7 +121,14 @@ const ColourWheel: React.FC<IProps> = ({inputs, style}) => {
 	}
 
 	return (
-		<canvas ref={canvas} style={{height: 300, width: 300}}/>
+		<React.Fragment>
+			<Tooltip placement="left" target={id} toggle={toggle} isOpen={tooltipOpen}>
+				This colour wheel is a testing tool only and not a part of the actual colour chisel library. This is
+				not always an accurate representation of your colours, due to the nature of this not
+				displaying luminance. Please use with discretion.
+			</Tooltip>
+			<canvas ref={canvas} style={{height: 300, width: 300}} id={id}/>
+		</React.Fragment>
 	)
 };
 
