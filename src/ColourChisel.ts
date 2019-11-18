@@ -1,10 +1,11 @@
-import {IColourChisel, IInput} from "./interface";
+import {IColourChisel, IInput, IExportOptions} from "./interface";
 import compile from "./compiler";
 import {determineInput, InputType} from "./converters/determineInput";
 import {rgbStringToHSL} from "./converters/rgbToHSL";
 import hexToHSL from "./converters/hexToHSL";
 import hslToRGB from "./converters/hslToRGB";
 import hslToHex from "./converters/hslToHex";
+import {hslToString, rgbToString} from "./converters/toStringFunctions";
 
 class ColourChisel implements IColourChisel {
 
@@ -39,50 +40,92 @@ class ColourChisel implements IColourChisel {
 				});
 				break;
 			default:
-				throw new Error("Invalid input of: " + input);
+				this.path = [];
 		}
 	}
 
-	addToPath(input: IInput): ColourChisel {
+	public addToPath(input: IInput): ColourChisel {
 		const temp = new ColourChisel(input);
 		return new ColourChisel([...this.hsl(), ...temp.hsl()]);
 	}
 
-	analogous(range: number = 45): ColourChisel {
+	public analogous(range: number = 45): ColourChisel {
 		return this.rotate(range);
 	}
 
-	compliment(): ColourChisel {
+	public compliment(): ColourChisel {
 		return this.rotate(180);
 	}
 
-	hex(): string[] {
+	public hex(): string[] {
 		return this.path.map(hslToHex);
 	}
 
-	rgb(): [number, number, number][] {
+	public rgb(): [number, number, number][] {
 		return this.path.map(hslToRGB);
 	}
 
-	hsl(): [number, number, number][] {
+	public hsl(): [number, number, number][] {
 		// done to make caller safe
 		return this.path.map((hsl) => ([...hsl] as [number, number, number]));
 	}
 
-	rotate(range: number): ColourChisel {
+	public rotate(range: number): ColourChisel {
 		const newPath: [number, number, number][] = this.hsl()
 			.map((hsl) => ([hsl[0] + range, hsl[1], hsl[2]]));
 		return new ColourChisel(newPath);
 	}
 
-	scale(amount: number): ColourChisel {
+	public scale(amount: number): ColourChisel {
 		const newPath: [number, number, number][] = this.hsl()
 			.map((hsl) => ([hsl[0], hsl[1] * amount, hsl[2]]));
 		return new ColourChisel(newPath);
 	}
 
-	clone(): ColourChisel {
+	public clone(): ColourChisel {
 		return new ColourChisel(this.hsl());
+	}
+
+	public js(options: IExportOptions): string {
+		const vals = this.getVals(options);
+		const prefix = options.variablePrefix ? options.variablePrefix : "val";
+		let file = "// This file was generated using colour-chisel\n";
+		file += "// https://github.com/Metroxe/colour-chisel\n\n";
+		vals.forEach( (v, i) => file += `export const ${prefix}${i} = "${v}";\n`);
+		return file;
+	}
+
+	public scss(options: IExportOptions): string {
+		const vals = this.getVals(options);
+		const prefix = options.variablePrefix ? options.variablePrefix : "val";
+		let file = "// This file was generated using colour-chisel\n";
+		file += "// https://github.com/Metroxe/colour-chisel\n\n";
+		vals.forEach( (v, i) => file += `$${prefix}${i} = ${v};\n`);
+		return file;
+	}
+
+	private getVals({format, ignoreCurrent, appendedColourChisels}: IExportOptions): string[] {
+		let ccs: IColourChisel[] = [];
+		if (!ignoreCurrent) {
+			ccs = [this];
+		}
+		if (appendedColourChisels) {
+			ccs = [...ccs, ...appendedColourChisels];
+		}
+		let ret: string[] = [];
+		ccs.forEach(cc => {
+			switch (format) {
+				case "rgb":
+					ret = [...ret, ...cc.rgb().map(rgbToString)];
+					break;
+				case "hsl":
+					ret = [...ret, ...cc.rgb().map(hslToString)];
+					break;
+				default:
+					ret = [...ret, ...cc.hex()];
+			}
+		});
+		return ret;
 	}
 }
 

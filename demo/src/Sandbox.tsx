@@ -1,8 +1,9 @@
-import {Alert, Card, CardBody, CardHeader, CardText, Col, Row} from "reactstrap";
+import {Alert, Button, Card, CardBody, CardHeader, CardText, Col, Row} from "reactstrap";
 import React, {useEffect, useState} from "react";
 import Editor from 'react-simple-code-editor';
 import ColourChisel from "colour-chisel";
 import ColourWheel from "./ColourWheel";
+import download from "downloadjs";
 
 export interface ISandboxProps {
 	title?: string,
@@ -45,6 +46,26 @@ const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, chil
 		}
 	}
 
+	function exportToJS(): void {
+		const ccs: ColourChisel[] = ColourChisel.compile(code);
+		const temp = new ColourChisel();
+		const file = temp.js({
+			appendedColourChisels: ccs,
+			ignoreCurrent: true,
+		});
+		download(file, title ? title + ".js" : "colourChiselExport.js");
+	}
+
+	function exportToSCSS(): void {
+		const ccs: ColourChisel[] = ColourChisel.compile(code);
+		const temp = new ColourChisel();
+		const file = temp.scss({
+			appendedColourChisels: ccs,
+			ignoreCurrent: true,
+		});
+		download(file, title ? title + ".scss" : "colourChiselExport.scss");
+	}
+
 	return (
 		<Card className="my-3">
 			{title && <CardHeader>{title}</CardHeader>}
@@ -71,6 +92,9 @@ const Sandbox: React.FC<ISandboxProps> = ({title, description, defaultCode, chil
 								}}
 							/>
 						</Card>
+
+						<Button disabled={error !== undefined && error !== null} className="mt-4" color="primary" onClick={exportToJS}>Export to JS</Button>
+						<Button disabled={error !== undefined && error !== null} className="mt-4 ml-2" color="primary" onClick={exportToSCSS}>Export to SCSS</Button>
 					</Col>
 
 					{error &&
