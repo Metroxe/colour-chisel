@@ -7,6 +7,8 @@ export interface IColourChisel {
 	hex(): string[];
 	rgb(): [number, number, number][];
 	hsl(): [number, number, number][];
+	js(options: IExportOptions): string;
+	scss(options: IExportOptions): string;
 
 	// transforms
 	addToPath(input: IInput): IColourChisel;
@@ -17,4 +19,10 @@ export interface IColourChisel {
 
 	// utils
 	clone(): IColourChisel;
+}
+
+export interface IExportOptions {
+	format?: "hex" | "rgb" | "hsl" | "colourchisel" // defaults to rgb
+	variablePrefix?: string
+	exportPath?: boolean
 }
