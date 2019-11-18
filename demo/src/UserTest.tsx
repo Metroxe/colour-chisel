@@ -10,9 +10,11 @@ import {
 	scaledPath
 } from "./Sections/UserTests";
 import download from "downloadjs";
+import axios from "axios";
 
 const UserTest: React.FC = () => {
 
+	const [submitted, updateSubmitted] = useState(false);
 	const [name, updateName] = useState();
 	const [programming, updateProgramming] = useState();
 	const [uiux, updateUIUX] = useState();
@@ -33,6 +35,25 @@ const UserTest: React.FC = () => {
 		return (e) => {
 			update(e.target.value)
 		}
+	}
+
+	async function anonymousSubmit(): Promise<void> {
+		const data = {
+			service_id: 'default_service',
+			template_id: 'colour_chisel',
+			user_id: 'user_1aphRYzSA0xvVbC0Cvqu0',
+			template_params: {
+				'markdown': generateMarkdown(),
+			}
+		};
+
+		try {
+			updateSubmitted(true);
+			await axios.post( 'https://api.emailjs.com/api/v1.0/email/send', data);
+		} catch {
+			updateSubmitted(false);
+		}
+
 	}
 
 	function generateMarkdown(): string {
@@ -123,9 +144,6 @@ const UserTest: React.FC = () => {
 					Final Remarks
 				</CardHeader>
 				<CardBody>
-					<CardText>
-
-					</CardText>
 					<FormGroup>
 						<Label for="useful">Do you find this language useful or not useful? Why?</Label>
 						<Input type="textarea" name="useful" id="useful" placeholder="e.g. No, I think its overly complicated to define my colour scheme in a domain specific language and then integrate into my work flow." value={useful} onChange={createInputOnChange(updateUseful)}/>
@@ -139,6 +157,7 @@ const UserTest: React.FC = () => {
 						<Input type="textarea" name="feedback" id="feedback" placeholder="e.g. I think the importing of constants is overly-complicated, why do I need to wrap it in so many brackets, what is this lisp? Also please use 'color' not 'colour', I'm not Canadian." value={feedback} onChange={createInputOnChange(updateFeedback)}/>
 					</FormGroup>
 					<Button color="primary" onClick={downloadButton}>Compile Results</Button>
+					<Button disabled={submitted} className="ml-2" color="primary" onClick={anonymousSubmit}>Send Results Anonymously</Button>
 				</CardBody>
 			</Card>
 		</React.Fragment>

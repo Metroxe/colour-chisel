@@ -1,4 +1,4 @@
-import {Card, CardBody, CardText} from "reactstrap";
+import {Button, Card, CardBody, CardText} from "reactstrap";
 import Editor from "react-simple-code-editor";
 import React from "react";
 
@@ -44,6 +44,7 @@ const Intro: React.FC = () => {
 						}}
 					/>
 				</Card>
+				<Button onClick={}>Github</Button>
 			</CardBody>
 		</Card>
 	)
