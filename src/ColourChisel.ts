@@ -40,7 +40,7 @@ class ColourChisel implements IColourChisel {
 				});
 				break;
 			default:
-				throw new Error("Invalid input of: " + input);
+				this.path = [];
 		}
 	}
 
@@ -87,19 +87,16 @@ class ColourChisel implements IColourChisel {
 	}
 
 	public js(options: IExportOptions): string {
-		const vals = this.convertToStrings(options);
+		const vals = this.getVals(options);
 		const prefix = options.variablePrefix ? options.variablePrefix : "val";
 		let file = "// This file was generated using colour-chisel\n";
 		file += "// https://github.com/Metroxe/colour-chisel\n\n";
-		vals.forEach( (v, i) => file += `export const ${prefix}${i} = ${v};\n`);
-		if (options.exportPath) {
-			file += `export const ${options.variablePrefix ? options.variablePrefix : "path"} = ${vals.toString()};\n`
-		}
+		vals.forEach( (v, i) => file += `export const ${prefix}${i} = "${v}";\n`);
 		return file;
 	}
 
 	public scss(options: IExportOptions): string {
-		const vals = this.convertToStrings(options);
+		const vals = this.getVals(options);
 		const prefix = options.variablePrefix ? options.variablePrefix : "val";
 		let file = "// This file was generated using colour-chisel\n";
 		file += "// https://github.com/Metroxe/colour-chisel\n\n";
@@ -107,15 +104,28 @@ class ColourChisel implements IColourChisel {
 		return file;
 	}
 
-	private convertToStrings({format}: IExportOptions): string[] {
-		switch (format) {
-			case "rgb":
-				return this.rgb().map(rgbToString);
-			case "hsl":
-				return this.hsl().map(hslToString);
-			case "hex":
-			return this.hex();
+	private getVals({format, ignoreCurrent, appendedColourChisels}: IExportOptions): string[] {
+		let ccs: IColourChisel[] = [];
+		if (!ignoreCurrent) {
+			ccs = [this];
 		}
+		if (appendedColourChisels) {
+			ccs = [...ccs, ...appendedColourChisels];
+		}
+		let ret: string[] = [];
+		ccs.forEach(cc => {
+			switch (format) {
+				case "rgb":
+					ret = [...ret, ...cc.rgb().map(rgbToString)];
+					break;
+				case "hsl":
+					ret = [...ret, ...cc.rgb().map(hslToString)];
+					break;
+				default:
+					ret = [...ret, ...cc.hex()];
+			}
+		});
+		return ret;
 	}
 }
 
