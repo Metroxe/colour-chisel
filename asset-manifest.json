@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/colour-chisel/static/js/main.c2d37519.chunk.js",
-    "main.js.map": "/colour-chisel/static/js/main.c2d37519.chunk.js.map",
+    "main.js": "/colour-chisel/static/js/main.1112d7fc.chunk.js",
+    "main.js.map": "/colour-chisel/static/js/main.1112d7fc.chunk.js.map",
     "runtime-main.js": "/colour-chisel/static/js/runtime-main.a5ba5e33.js",
     "runtime-main.js.map": "/colour-chisel/static/js/runtime-main.a5ba5e33.js.map",
     "static/css/2.0624914a.chunk.css": "/colour-chisel/static/css/2.0624914a.chunk.css",
-    "static/js/2.69f0071e.chunk.js": "/colour-chisel/static/js/2.69f0071e.chunk.js",
-    "static/js/2.69f0071e.chunk.js.map": "/colour-chisel/static/js/2.69f0071e.chunk.js.map",
+    "static/js/2.4d840530.chunk.js": "/colour-chisel/static/js/2.4d840530.chunk.js",
+    "static/js/2.4d840530.chunk.js.map": "/colour-chisel/static/js/2.4d840530.chunk.js.map",
     "index.html": "/colour-chisel/index.html",
-    "precache-manifest.5170fa151fbb85573822ec0375edad0c.js": "/colour-chisel/precache-manifest.5170fa151fbb85573822ec0375edad0c.js",
+    "precache-manifest.94b85b8b0b2739436f4c98a8b6f9e77e.js": "/colour-chisel/precache-manifest.94b85b8b0b2739436f4c98a8b6f9e77e.js",
     "service-worker.js": "/colour-chisel/service-worker.js",
     "static/css/2.0624914a.chunk.css.map": "/colour-chisel/static/css/2.0624914a.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.a5ba5e33.js",
     "static/css/2.0624914a.chunk.css",
-    "static/js/2.69f0071e.chunk.js",
-    "static/js/main.c2d37519.chunk.js"
+    "static/js/2.4d840530.chunk.js",
+    "static/js/main.1112d7fc.chunk.js"
   ]
 }
