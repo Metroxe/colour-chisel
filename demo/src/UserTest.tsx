@@ -10,9 +10,11 @@ import {
 	scaledPath
 } from "./Sections/UserTests";
 import download from "downloadjs";
+import axios from "axios";
 
 const UserTest: React.FC = () => {
 
+	const [submitted, updateSubmitted] = useState(false);
 	const [name, updateName] = useState();
 	const [programming, updateProgramming] = useState();
 	const [uiux, updateUIUX] = useState();
@@ -33,6 +35,25 @@ const UserTest: React.FC = () => {
 		return (e) => {
 			update(e.target.value)
 		}
+	}
+
+	async function anonymousSubmit(): Promise<void> {
+		const data = {
+			service_id: 'default_service',
+			template_id: 'colour_chisel',
+			user_id: 'user_1aphRYzSA0xvVbC0Cvqu0',
+			template_params: {
+				'markdown': generateMarkdown(),
+			}
+		};
+
+		try {
+			updateSubmitted(true);
+			await axios.post( 'https://api.emailjs.com/api/v1.0/email/send', data);
+		} catch {
+			updateSubmitted(false);
+		}
+
 	}
 
 	function generateMarkdown(): string {
@@ -75,7 +96,8 @@ const UserTest: React.FC = () => {
 						as an issue on <a href="https://github.com/Metroxe/colour-chisel/issues/new">Github</a> or anonymously to me at <a href="mailto:chrispow96@gmail.com"> chrispow96@gmail.com</a>.
 						To save your results for submission, simply press on the button below to export into markdown,
 						this file can be copy and pasted into a Github issue or emailed to me directly. All information here
-						is optional. You are allowed to refer to the examples or any other sources on the internet.
+						is optional. <br/><br/>
+						<b>You are allowed to refer to the examples or any other sources on the internet, it is strongly encouraged</b>.
 					</CardText>
 					<Button color="primary" onClick={downloadButton}>Compile Results</Button>
 				</CardBody>
@@ -123,9 +145,6 @@ const UserTest: React.FC = () => {
 					Final Remarks
 				</CardHeader>
 				<CardBody>
-					<CardText>
-
-					</CardText>
 					<FormGroup>
 						<Label for="useful">Do you find this language useful or not useful? Why?</Label>
 						<Input type="textarea" name="useful" id="useful" placeholder="e.g. No, I think its overly complicated to define my colour scheme in a domain specific language and then integrate into my work flow." value={useful} onChange={createInputOnChange(updateUseful)}/>
@@ -139,6 +158,7 @@ const UserTest: React.FC = () => {
 						<Input type="textarea" name="feedback" id="feedback" placeholder="e.g. I think the importing of constants is overly-complicated, why do I need to wrap it in so many brackets, what is this lisp? Also please use 'color' not 'colour', I'm not Canadian." value={feedback} onChange={createInputOnChange(updateFeedback)}/>
 					</FormGroup>
 					<Button color="primary" onClick={downloadButton}>Compile Results</Button>
+					<Button disabled={submitted} className="ml-2" color="primary" onClick={anonymousSubmit}>Send Results Anonymously</Button>
 				</CardBody>
 			</Card>
 		</React.Fragment>

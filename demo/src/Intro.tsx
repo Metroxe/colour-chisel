@@ -1,4 +1,4 @@
-import {Card, CardBody, CardText} from "reactstrap";
+import {Button, Card, CardBody, CardText} from "reactstrap";
 import Editor from "react-simple-code-editor";
 import React from "react";
 
@@ -44,6 +44,8 @@ const Intro: React.FC = () => {
 						}}
 					/>
 				</Card>
+				<Button className="mt-4" color="primary" target="_blank" href="https://github.com/Metroxe/colour-chisel">Github</Button>
+				<Button className="mt-4 mx-2" color="primary" target="_blank" href="https://github.com/Metroxe">Author</Button>
 			</CardBody>
 		</Card>
 	)
