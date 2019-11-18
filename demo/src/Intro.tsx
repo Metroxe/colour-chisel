@@ -44,7 +44,8 @@ const Intro: React.FC = () => {
 						}}
 					/>
 				</Card>
-				<Button onClick={}>Github</Button>
+				<Button className="mt-4" color="primary" target="_blank" href="https://github.com/Metroxe/colour-chisel">Github</Button>
+				<Button className="mt-4 mx-2" color="primary" target="_blank" href="https://github.com/Metroxe">Author</Button>
 			</CardBody>
 		</Card>
 	)

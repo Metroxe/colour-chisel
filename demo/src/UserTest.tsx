@@ -96,7 +96,8 @@ const UserTest: React.FC = () => {
 						as an issue on <a href="https://github.com/Metroxe/colour-chisel/issues/new">Github</a> or anonymously to me at <a href="mailto:chrispow96@gmail.com"> chrispow96@gmail.com</a>.
 						To save your results for submission, simply press on the button below to export into markdown,
 						this file can be copy and pasted into a Github issue or emailed to me directly. All information here
-						is optional. You are allowed to refer to the examples or any other sources on the internet.
+						is optional. <br/><br/>
+						<b>You are allowed to refer to the examples or any other sources on the internet, it is strongly encouraged</b>.
 					</CardText>
 					<Button color="primary" onClick={downloadButton}>Compile Results</Button>
 				</CardBody>
