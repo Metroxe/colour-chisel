@@ -1,12 +1,16 @@
 {
   "name": "colour-chisel",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "bin": {
+    "colour-chisel": "./dist/cc.js"
+  },
   "description": "A library for navigating the colour wheel and creating colour schemes.",
   "main": "dist/index.js",
   "scripts": {
     "test": "ts-mocha ./test/**/* --timeout 10000",
     "build": "rm -rf dist && tsc",
-    "deploy-demo": "npm run build --prefix ./demo && gh-pages -d ./demo/build"
+    "deploy-demo": "npm run build --prefix ./demo && gh-pages -d ./demo/build",
+    "deploy-npm": "npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -36,5 +40,8 @@
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3",
     "gh-pages": "^2.0.1"
-  }
+  },
+  "files": [
+    "/dist"
+  ]
 }
